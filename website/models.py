@@ -17,3 +17,7 @@ class Record(models.Model):
     def __str__(self):
         return(f"{self.first_name} {self.last_name}")
     
+    def save(self, *args, **kwargs):
+        # add any custom save behavior here
+        super().save(*args, **kwargs)
+    

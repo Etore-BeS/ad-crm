@@ -92,14 +92,14 @@ def update_record(request, pk):
     if request.user.is_authenticated:
         record = Record.objects.get(id=pk)
         form = AddRecordForm(request.POST or None, instance=record)
-        
+    
         if request.method == 'POST':
             if form.is_valid():
                 form.save()
                 messages.success(request, "Registro atualizado com sucesso")
                 return redirect('home')
-        else:
-            return render(request, 'update_record.html', {'form': form})
+        return render(request, 'update_record.html', {'form': form})
+    
     else:
         messages.success(request, "Você precisa estar logado para acessar essa página")
         return redirect('home')
