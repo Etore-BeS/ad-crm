@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+
+<br/>
+
+
+<table class="table table-striped table-hover table-bordered caption-top">
+    <caption>Clientes</caption>
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Email</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Endereço</th>
+            <th scope="col">Cidade</th>
+            <th scope="col">Estado</th>
+            <th scope="col">CEP</th>
+            <th scope="col">Criado em</th>
+            <th scope="col">ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        {% if records %}
+            {% for record in records %}
+                <tr class="clickable-row" data-href="{% url 'record' record.id %}">  
+                    <td>{{ record.first_name }} {{record.last_name}}</td>
+                    <td>{{ record.email }}</td>
+                    <td>{{ record.phone }}</td>
+                    <td>{{ record.address }}</td>
+                    <td>{{ record.city }}</td>
+                    <td>{{ record.state }}</td>
+                    <td>{{ record.zipcode }}</td>
+                    <td>{{ record.created_at }}</td>
+                    <td>{{ record.id }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="10">No records found</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+{% else %}
+
+<div class="col-md-6 offset-md-3">
+
+<br/>
+
+<h1>Login</h1>
+
+<br/>
+
+<form method="POST" action="{% url 'home' %}">
+{% csrf_token %}
+    <div class="mb-3">
+        <input type="text" class="form-control"  aria-describedby="emailHelp" name="username" placeholder="Usuário" required>
+    </div>
+    <div class="mb-3">
+        <input type="password" class="form-control" name="password" placeholder="Senha" required>
+    </div>
+    <br/>
+    <button type="submit" class="btn btn-secondary">Login</button>
+
+</form>
+</div>
+
+{% endif %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function($) {
+    $("tr[data-href]").click(function() {
+        window.location.href = $(this).data("href");
+    });
+});
+</script>
+
+
+{% endblock %}
